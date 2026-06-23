@@ -1010,15 +1010,22 @@
 
       .index-item {
         flex-basis: 68%;
-        transform: scale(0.9);
-        transform-origin: center bottom;
         opacity: 0.72;
-        transition: transform 0.28s ease, opacity 0.28s ease;
+        transition: opacity 0.28s ease;
       }
 
       .index-item.is-active {
-        transform: scale(1);
         opacity: 1;
+      }
+
+      .index-item .index-cover-container {
+        transform: scale(0.9);
+        transform-origin: center bottom;
+        transition: transform 0.28s ease;
+      }
+
+      .index-item.is-active .index-cover-container {
+        transform: scale(1);
       }
 
       .index-item.is-active .index-cover-container img {
@@ -2227,24 +2234,15 @@
       if (!index || !item || !prev || !next || !status) return;
 
       const gap = parseFloat(getComputedStyle(index).columnGap) || 0;
-      const step = item.getBoundingClientRect().width + gap;
+      const step = item.offsetWidth + gap;
       const maxScroll = index.scrollWidth - index.clientWidth;
       const current = Math.min(projects.length, Math.max(1, Math.round(index.scrollLeft / step) + 1));
-      const viewportCenter = index.getBoundingClientRect().left + index.clientWidth / 2;
-      let activeItem = item;
-      let activeDistance = Infinity;
+      const items = Array.from(index.querySelectorAll(".index-item"));
 
-      index.querySelectorAll(".index-item").forEach(projectItem => {
-        const rect = projectItem.getBoundingClientRect();
-        const distance = Math.abs(rect.left + rect.width / 2 - viewportCenter);
+      items.forEach((projectItem, projectIndex) => {
         projectItem.classList.remove("is-active");
-        if (distance < activeDistance) {
-          activeDistance = distance;
-          activeItem = projectItem;
-        }
+        if (projectIndex === current - 1) projectItem.classList.add("is-active");
       });
-
-      activeItem.classList.add("is-active");
 
       prev.disabled = index.scrollLeft <= 2;
       next.disabled = index.scrollLeft >= maxScroll - 2;
@@ -2273,7 +2271,7 @@
       if (!item) return;
 
       const gap = parseFloat(getComputedStyle(index).columnGap) || 0;
-      const step = item.getBoundingClientRect().width + gap;
+      const step = item.offsetWidth + gap;
       const maxScroll = index.scrollWidth - index.clientWidth;
       const nextScroll = Math.min(
         Math.max(index.scrollLeft + step * direction, 0),
