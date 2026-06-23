@@ -173,11 +173,10 @@
       width: 50%;
       min-width: 150px;
       max-width: 210px;
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 3 / 4;
       overflow: hidden;
       position: relative;
       background-color: #ffffff;
-      border-radius: 50%;
     }
 
     #about .about-photo-container {
@@ -194,7 +193,6 @@
       display: block;
       filter: grayscale(100%);
       transition: filter 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-      border-radius: 50%;
     }
 
     .about-photo-container:hover img {
@@ -1072,6 +1070,8 @@
         gap: 0.9rem;
         padding: 0.75rem 0 1.3rem 0;
         align-items: center;
+        scroll-snap-type: x mandatory;
+        touch-action: pan-y;
       }
 
       .index-item {
@@ -2302,12 +2302,36 @@
 
     function setupProjectWheelScroll() {
       const index = document.getElementById("projectIndex");
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let handledSwipe = false;
+
       index.addEventListener("wheel", event => {
         const scrollAmount = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
         if (scrollAmount === 0) return;
         event.preventDefault();
         index.scrollLeft += scrollAmount;
       }, { passive: false });
+
+      index.addEventListener("touchstart", event => {
+        const touch = event.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        handledSwipe = false;
+      }, { passive: true });
+
+      index.addEventListener("touchmove", event => {
+        if (handledSwipe || event.touches.length !== 1) return;
+        const touch = event.touches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+
+        if (Math.abs(deltaX) < 42 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
+        handledSwipe = true;
+        event.preventDefault();
+        scrollProjectIndex(deltaX < 0 ? 1 : -1);
+      }, { passive: false });
+
       index.addEventListener("scroll", updateProjectScrollControls, { passive: true });
     }
 
