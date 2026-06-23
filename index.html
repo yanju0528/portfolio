@@ -925,21 +925,25 @@
 
       #about {
         min-height: calc(100vh - 4.1rem);
-        padding: 6.4rem 1.45rem 0.75rem 1.45rem;
+        padding: 4.7rem 1.45rem 0.75rem 1.45rem;
         display: block;
         position: relative;
       }
 
       #about .about-photo-container {
-        position: absolute;
-        right: 1.45rem;
-        top: 2.4rem;
-        width: 46vw;
+        position: relative;
+        right: auto;
+        top: auto;
+        width: 42vw;
         min-width: 0;
-        max-width: 190px;
-        margin: 0;
-        opacity: 0.34;
-        z-index: 0;
+        max-width: 165px;
+        margin: 0 0 2.5rem 0;
+        opacity: 1;
+        z-index: 1;
+      }
+
+      #about .about-photo-container img {
+        filter: grayscale(0%);
       }
 
       #about .about-text {
@@ -970,7 +974,7 @@
         font-weight: 300;
         letter-spacing: 1.8px;
         line-height: 1.5;
-        margin-bottom: 5.2rem;
+        margin-bottom: 4.4rem;
       }
 
       .about-text p {
@@ -979,10 +983,10 @@
 
       .mobile-manifesto {
         display: block;
-        max-width: 92%;
-        font-size: 1.12rem;
+        max-width: 94%;
+        font-size: 1.04rem;
         font-weight: 300;
-        line-height: 1.95;
+        line-height: 1.9;
         color: #333333;
         margin: 0;
         letter-spacing: 0.2px;
@@ -1006,8 +1010,8 @@
       }
 
       #project-index {
-        margin-top: -5.4rem;
-        padding: 0 1.45rem 3.6rem 1.45rem;
+        margin-top: 0;
+        padding: 2.5rem 1.45rem 3.6rem 1.45rem;
       }
 
       .section-title {
@@ -1271,8 +1275,8 @@
       }
 
       #about .about-photo-container {
-        right: 1.25rem;
-        width: 48vw;
+        width: 44vw;
+        max-width: 155px;
       }
 
       #project-index,
@@ -1303,11 +1307,11 @@
       .school-name {
         font-size: 0.64rem;
         letter-spacing: 1.35px;
-        margin-bottom: 4.8rem;
+        margin-bottom: 4.1rem;
       }
 
       .mobile-manifesto {
-        font-size: 1.02rem;
+        font-size: 0.98rem;
         line-height: 1.9;
       }
 
@@ -1352,7 +1356,7 @@
           <h1>JU YAN</h1>
           <div class="school-name">POLITECNICO DI MILANO</div>
           <p data-lang="about_p">After World War II, the French architect Fernand Pouillon stated, "It is enough to have one Corbusier in the world, and I will dedicate myself to designing architecture for civilians." This statement continues to influence my thinking, as it challenges me to reconsider architecture not merely as form-making or grand narratives, but as something grounded in everyday life.</p>
-          <blockquote class="mobile-manifesto">Architecture,<br>not as <strong>grand narratives</strong>,<br>but as something<br><strong>grounded in everyday life.</strong></blockquote>
+          <blockquote class="mobile-manifesto">"It is enough to have one Corbusier in the world,<br>and I will dedicate myself to designing architecture for civilians."</blockquote>
         </div>
       </section>
 
