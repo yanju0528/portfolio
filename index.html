@@ -22,6 +22,10 @@
       -webkit-text-size-adjust: 100%;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     header {
       position: fixed;
       top: 0;
@@ -350,6 +354,14 @@
       cursor: pointer;
       text-align: left;
       scroll-snap-align: start;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .index-item.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .index-cover-container {
@@ -360,6 +372,7 @@
       margin-bottom: 0.75rem;
       transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
       will-change: transform;
+      position: relative;
     }
 
     .index-cover-container img {
@@ -367,17 +380,43 @@
       height: 100%;
       object-fit: cover;
       filter: grayscale(100%);
-      transition: filter 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: filter 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    .index-item:hover .index-cover-container {
-      animation: cover-hop 0.38s ease;
-      transform: translateY(-8px);
+    .index-cover-title {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 1.7px;
+      line-height: 1.4;
+      text-transform: uppercase;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0));
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
     }
 
-    .index-item:hover .index-cover-container img {
-      filter: grayscale(0%);
+    @media (hover: hover) and (pointer: fine) {
+      .index-item:hover .index-cover-container {
+        animation: cover-hop 0.38s ease;
+        transform: translateY(-8px);
+      }
+
+      .index-item:hover .index-cover-container img {
+        filter: grayscale(0%);
+        transform: scale(1.05);
+      }
+
+      .index-item:hover .index-cover-title {
+        opacity: 1;
+      }
     }
+
 
     .index-info {
       display: flex;
@@ -928,6 +967,9 @@
         padding: 4.7rem 1.45rem 0.75rem 1.45rem;
         display: block;
         position: relative;
+        opacity: var(--hero-opacity, 1);
+        transform: translateY(var(--hero-shift, 0));
+        transition: opacity 0.08s linear, transform 0.08s linear;
       }
 
       #about .about-photo-container {
@@ -1032,12 +1074,16 @@
 
       .index-item {
         flex-basis: 68%;
-        opacity: 0.72;
-        transition: opacity 0.28s ease;
+        opacity: 0;
+        transition: opacity 0.45s ease, transform 0.45s ease;
       }
 
       .index-item.is-active {
         opacity: 1;
+      }
+
+      .index-item.is-revealed:not(.is-active) {
+        opacity: 0.72;
       }
 
       .index-item .index-cover-container {
@@ -2168,6 +2214,7 @@
         <button class="index-item" type="button" onclick="showProject('${project.id}')">
           <div class="index-cover-container">
             <img src="${previewSrc(project.cover)}" alt="${projectValueFor(project.title)}" loading="lazy">
+            <div class="index-cover-title">${displayNumberFor(project)} / ${projectValueFor(project.title)}</div>
           </div>
           <div class="index-info">
             <div class="index-meta">${displayNumberFor(project)} / ${projectValueFor(project.indexLine)}</div>
@@ -2175,6 +2222,28 @@
         </button>
       `).join("");
       updateProjectScrollControls();
+      setupProjectReveal();
+    }
+
+    function setupProjectReveal() {
+      const items = document.querySelectorAll(".index-item");
+      if (!("IntersectionObserver" in window)) {
+        items.forEach(item => item.classList.add("is-revealed"));
+        return;
+      }
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const itemIndex = Array.from(items).indexOf(entry.target);
+          window.setTimeout(() => {
+            entry.target.classList.add("is-revealed");
+          }, itemIndex * 90);
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.2 });
+
+      items.forEach(item => observer.observe(item));
     }
 
     function renderDetail(project) {
@@ -2302,6 +2371,24 @@
       window.setTimeout(updateProjectScrollControls, 350);
     }
 
+    let heroFrame = null;
+
+    function updateHeroMotion() {
+      heroFrame = null;
+      const hero = document.getElementById("about");
+      const home = document.getElementById("page-home");
+      if (!hero || !home || !home.classList.contains("active")) return;
+
+      const progress = Math.min(Math.max(window.scrollY / Math.max(hero.offsetHeight * 0.6, 1), 0), 1);
+      hero.style.setProperty("--hero-opacity", String(1 - progress * 0.82));
+      hero.style.setProperty("--hero-shift", `${-progress * 28}px`);
+    }
+
+    function requestHeroMotion() {
+      if (heroFrame) return;
+      heroFrame = window.requestAnimationFrame(updateHeroMotion);
+    }
+
     function switchLanguage(lang) {
       currentLanguage = lang;
       document.documentElement.setAttribute("lang", lang);
@@ -2339,6 +2426,7 @@
       }
 
       window.scrollTo({ top: 0, behavior: "instant" });
+      window.setTimeout(updateHeroMotion, 20);
     }
 
     function showProject(projectId) {
@@ -2352,8 +2440,14 @@
     renderIndex();
     setupProjectWheelScroll();
     syncHomePhotoSize();
+    updateHeroMotion();
+    window.addEventListener("scroll", requestHeroMotion, { passive: true });
     window.addEventListener("resize", syncHomePhotoSize);
-    window.addEventListener("load", syncHomePhotoSize);
+    window.addEventListener("resize", requestHeroMotion);
+    window.addEventListener("load", () => {
+      syncHomePhotoSize();
+      updateHeroMotion();
+    });
   </script>
 </body>
 </html>
