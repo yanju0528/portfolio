@@ -982,7 +982,7 @@
         min-width: 0;
         max-width: 230px;
         margin: 0 auto 2.35rem auto;
-        opacity: 1;
+        opacity: 0.8;
         z-index: 1;
       }
 
@@ -1005,12 +1005,12 @@
       }
 
       .about-text h1 {
-        font-size: clamp(3rem, 13vw, 4rem);
+        font-size: clamp(2rem, 8.7vw, 2.65rem);
         font-weight: 300;
         text-align: center;
         line-height: 1;
         margin: 0 0 0.55rem 0;
-        letter-spacing: 7px;
+        letter-spacing: 5px;
       }
 
       .school-name {
@@ -1350,8 +1350,8 @@
       }
 
       .about-text h1 {
-        font-size: 2.85rem;
-        letter-spacing: 6px;
+        font-size: 1.9rem;
+        letter-spacing: 4px;
       }
 
       .school-name {
@@ -1375,10 +1375,11 @@
 <body>
   <header>
     <div class="header-container">
-      <button class="logo" type="button" onclick="showPage('home')" aria-label="Home"></button>
+      <button class="logo" type="button" onclick="showHome()" aria-label="Home"></button>
       <div class="nav-right">
         <nav>
-          <button type="button" id="nav-link-portfolio" class="active-nav" onclick="showPage('home'); closeMobileMenu();" data-lang="nav_portfolio">PORTFOLIO</button>
+          <button type="button" id="nav-link-home" class="active-nav" onclick="showHome(); closeMobileMenu();">HOME</button>
+          <button type="button" id="nav-link-portfolio" onclick="showPortfolio(); closeMobileMenu();">PORTFOLIO</button>
           <button type="button" id="nav-link-about" onclick="showPage('about'); closeMobileMenu();" data-lang="nav_about">ABOUT</button>
         </nav>
       </div>
@@ -2408,20 +2409,47 @@
       document.querySelectorAll(".page-view").forEach(page => page.classList.remove("active"));
       document.getElementById("page-" + pageId).classList.add("active");
 
+      const navHome = document.getElementById("nav-link-home");
       const navPortfolio = document.getElementById("nav-link-portfolio");
       const navAbout = document.getElementById("nav-link-about");
 
+      [navHome, navPortfolio, navAbout].forEach(link => {
+        if (link) link.classList.remove("active-nav");
+      });
+
       if (pageId === "about") {
         currentProject = null;
-        navPortfolio.classList.remove("active-nav");
         navAbout.classList.add("active-nav");
       } else {
         if (pageId === "home") currentProject = null;
-        navPortfolio.classList.add("active-nav");
-        navAbout.classList.remove("active-nav");
+        navHome.classList.add("active-nav");
       }
 
       window.scrollTo({ top: 0, behavior: "instant" });
+      window.setTimeout(updateHeroMotion, 20);
+    }
+
+    function showHome() {
+      showPage("home");
+    }
+
+    function showPortfolio() {
+      document.querySelectorAll(".page-view").forEach(page => page.classList.remove("active"));
+      document.getElementById("page-home").classList.add("active");
+      currentProject = null;
+
+      const navHome = document.getElementById("nav-link-home");
+      const navPortfolio = document.getElementById("nav-link-portfolio");
+      const navAbout = document.getElementById("nav-link-about");
+      [navHome, navPortfolio, navAbout].forEach(link => {
+        if (link) link.classList.remove("active-nav");
+      });
+      navPortfolio.classList.add("active-nav");
+
+      const projectIndex = document.getElementById("project-index");
+      if (projectIndex) {
+        projectIndex.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
       window.setTimeout(updateHeroMotion, 20);
     }
 
