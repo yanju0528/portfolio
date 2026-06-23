@@ -198,7 +198,7 @@
     }
 
     .about-photo-container:hover img {
-      filter: grayscale(0%);
+      filter: grayscale(100%);
     }
 
     .about-text h1 {
@@ -987,7 +987,7 @@
       }
 
       #about .about-photo-container img {
-        filter: grayscale(0%);
+        filter: grayscale(100%);
       }
 
       #about .about-text {
@@ -1381,13 +1381,6 @@
           <button type="button" id="nav-link-portfolio" class="active-nav" onclick="showPage('home'); closeMobileMenu();" data-lang="nav_portfolio">PORTFOLIO</button>
           <button type="button" id="nav-link-about" onclick="showPage('about'); closeMobileMenu();" data-lang="nav_about">ABOUT</button>
         </nav>
-        <select class="lang-selector" onchange="switchLanguage(this.value); closeMobileMenu();">
-          <option value="en" selected>EN</option>
-          <option value="it">IT</option>
-          <option value="de">DE</option>
-          <option value="fr">FR</option>
-          <option value="zh">CH</option>
-        </select>
       </div>
       <button class="mobile-menu-toggle" type="button" aria-label="Open navigation menu" onclick="toggleMobileMenu()">
         <span></span>
