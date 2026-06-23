@@ -1003,12 +1003,30 @@
       }
 
       .index-grid {
-        gap: 1.1rem;
-        padding: 0.55rem 0 1rem 0;
+        gap: 0.9rem;
+        padding: 0.75rem 0 1.3rem 0;
+        align-items: center;
       }
 
       .index-item {
-        flex-basis: calc(100% - 2.1rem);
+        flex-basis: 68%;
+        transform: scale(0.9);
+        transform-origin: center bottom;
+        opacity: 0.72;
+        transition: transform 0.28s ease, opacity 0.28s ease;
+      }
+
+      .index-item.is-active {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      .index-item.is-active .index-cover-container img {
+        filter: grayscale(0%);
+      }
+
+      .index-item:not(.is-active) .index-cover-container img {
+        filter: grayscale(100%);
       }
 
       .index-info {
@@ -1250,7 +1268,7 @@
       }
 
       .index-item {
-        flex-basis: calc(100% - 1.85rem);
+        flex-basis: 72%;
       }
 
       .project-scroll-status {
@@ -2212,6 +2230,21 @@
       const step = item.getBoundingClientRect().width + gap;
       const maxScroll = index.scrollWidth - index.clientWidth;
       const current = Math.min(projects.length, Math.max(1, Math.round(index.scrollLeft / step) + 1));
+      const viewportCenter = index.getBoundingClientRect().left + index.clientWidth / 2;
+      let activeItem = item;
+      let activeDistance = Infinity;
+
+      index.querySelectorAll(".index-item").forEach(projectItem => {
+        const rect = projectItem.getBoundingClientRect();
+        const distance = Math.abs(rect.left + rect.width / 2 - viewportCenter);
+        projectItem.classList.remove("is-active");
+        if (distance < activeDistance) {
+          activeDistance = distance;
+          activeItem = projectItem;
+        }
+      });
+
+      activeItem.classList.add("is-active");
 
       prev.disabled = index.scrollLeft <= 2;
       next.disabled = index.scrollLeft >= maxScroll - 2;
