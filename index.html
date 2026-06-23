@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JU YAN - Architectural Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', "Helvetica Neue", Helvetica, Arial, "PingFang SC", sans-serif;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #111111;
+      line-height: 1.6;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid #eeeeee;
+      z-index: 1000;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .header-container {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      border: 0;
+      background: transparent;
+      color: #111111;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      min-width: 1px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav button {
+      border: 0;
+      background: transparent;
+      color: #666666;
+      cursor: pointer;
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      transition: color 0.3s;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    nav button:hover,
+    nav button.active-nav {
+      color: #000000;
+    }
+
+    .lang-selector {
+      border: 0;
+      background: #ffffff;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      outline: none;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: #666666;
+    }
+
+    main {
+      padding-top: 6rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+      background: #ffffff;
+    }
+
+    .page-view {
+      display: none;
+      background: #ffffff;
+    }
+
+    .page-view.active {
+      display: block;
+    }
+
+    #about {
+      padding: 3rem 2rem 1.5rem 2rem;
+      display: grid;
+      grid-template-columns: 0.8fr 2.6fr;
+      gap: 3.5rem;
+      align-items: start;
+      background: #ffffff;
+    }
+
+    .about-photo-container {
+      width: 50%;
+      min-width: 150px;
+      max-width: 210px;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      position: relative;
+      background-color: #ffffff;
+    }
+
+    #about .about-photo-container {
+      width: 50%;
+      min-width: 150px;
+      max-width: 210px;
+    }
+
+    .about-photo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      filter: grayscale(100%);
+      transition: filter 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .about-photo-container:hover img {
+      filter: grayscale(0%);
+    }
+
+    .about-text h1 {
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 0.55rem;
+      letter-spacing: 2px;
+    }
+
+    .school-name {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #555555;
+      margin-bottom: 1.35rem;
+    }
+
+    .about-text p {
+      color: #444444;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      text-align: justify;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    .cv-meta {
+      display: none;
+    }
+
+    .cv-meta strong {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .cv-meta span {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: #333333;
+    }
+
+    #project-index {
+      padding: 2rem 2rem 5rem 2rem;
+      background: #ffffff;
+      position: relative;
+    }
+
+    .project-index-scroll-cue {
+      position: absolute;
+      top: 50%;
+      width: 24px;
+      height: 32px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      transform: translateY(-50%);
+      opacity: 0.72;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .project-index-scroll-cue.prev {
+      left: 0.25rem;
+    }
+
+    .project-index-scroll-cue.next {
+      right: 0.25rem;
+    }
+
+    .project-index-scroll-cue::before {
+      content: "";
+      position: absolute;
+      top: 9px;
+      left: 6px;
+      width: 12px;
+      height: 12px;
+      border-top: 1px solid #111111;
+      border-right: 1px solid #111111;
+      transform: rotate(45deg);
+    }
+
+    .project-index-scroll-cue.prev::before {
+      left: 8px;
+      transform: rotate(-135deg);
+    }
+
+    .project-index-scroll-cue:hover {
+      opacity: 1;
+    }
+
+    .project-index-scroll-cue:disabled {
+      opacity: 0.18;
+      cursor: default;
+      transform: translateY(-50%);
+    }
+
+    .project-index-scroll-cue.prev:hover {
+      transform: translateY(-50%) translateX(-2px);
+    }
+
+    .project-index-scroll-cue.next:hover {
+      transform: translateY(-50%) translateX(2px);
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 2rem;
+      color: #111111;
+      border-left: 3px solid #111111;
+      padding-left: 0.75rem;
+    }
+
+    .project-scroll-status {
+      position: absolute;
+      right: 2rem;
+      bottom: 3.4rem;
+      color: #999999;
+      font-size: 0.7rem;
+      letter-spacing: 1.2px;
+      pointer-events: none;
+    }
+
+    .index-grid {
+      display: flex;
+      gap: 2rem;
+      overflow-x: auto;
+      overflow-y: visible;
+      padding: 1rem 0 1.25rem 0;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .index-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .index-item {
+      flex: 0 0 calc((100% - 4rem) / 3);
+      border: 0;
+      background: #ffffff;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      text-align: left;
+      scroll-snap-align: start;
+    }
+
+    .index-cover-container {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-color: #ffffff;
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+      transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+      will-change: transform;
+    }
+
+    .index-cover-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%);
+      transition: filter 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .index-item:hover .index-cover-container {
+      animation: cover-hop 0.38s ease;
+      transform: translateY(-8px);
+    }
+
+    .index-item:hover .index-cover-container img {
+      filter: grayscale(0%);
+    }
+
+    .index-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes cover-hop {
+      0% {
+        transform: translateY(0);
+      }
+      55% {
+        transform: translateY(-11px);
+      }
+      100% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .index-meta {
+      color: #555555;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .detail-view-container {
+      padding: 2rem;
+      background: #ffffff;
+    }
+
+    .back-to-index {
+      display: inline-flex;
+      align-items: center;
+      border: 0;
+      background: #ffffff;
+      color: #666666;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 2.5rem;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .back-to-index:hover {
+      color: #000000;
+    }
+
+    .back-to-index::before {
+      content: "<";
+      margin-right: 0.5rem;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 2.5rem;
+    }
+
+    .project-header h2 {
+      font-size: 1.4rem;
+      font-weight: 400;
+      letter-spacing: 1px;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .project-header span {
+      font-size: 0.75rem;
+      color: #666666;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      white-space: nowrap;
+      margin-left: 2rem;
+      font-weight: 500;
+    }
+
+    .project-info-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(180px, 0.8fr);
+      gap: 3rem;
+      max-width: 880px;
+      margin-bottom: 3.2rem;
+    }
+
+    .project-description {
+      font-size: 0.86rem;
+      color: #333333;
+      text-align: justify;
+      line-height: 1.9;
+      font-weight: 300;
+    }
+
+    .project-spec {
+      font-size: 0.72rem;
+      color: #777777;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .project-spec strong {
+      color: #111111;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.75rem;
+      display: inline-block;
+      margin-bottom: 0.2rem;
+    }
+
+    .ordered-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .ordered-gallery.loose-gallery {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 1.6rem 1.25rem;
+      align-items: start;
+    }
+
+    .ordered-gallery.model-gallery {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.1rem;
+      max-width: 940px;
+    }
+
+    .model-gallery .drawing-container {
+      aspect-ratio: 4 / 3 !important;
+    }
+
+    .model-gallery .drawing-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .loose-gallery .gallery-item {
+      width: 100%;
+      margin: 0;
+    }
+
+    .loose-gallery .drawing-container {
+      aspect-ratio: auto !important;
+    }
+
+    .loose-gallery .drawing-container img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .loose-gallery .gallery-item:nth-child(12n + 1) {
+      grid-column: 1 / span 4;
+    }
+
+    .loose-gallery .gallery-item:nth-child(12n + 2) {
+      grid-column: 5 / span 4;
+      margin-top: 1.4rem;
+    }
+
+    .loose-gallery .gallery-item:nth-child(12n + 3) {
+      grid-column: 9 / span 4;
+      margin-top: 0.8rem;
+    }
+
+    .loose-gallery .gallery-item:nth-child(12n + 4) {
+      grid-column: 1 / span 4;
+      margin-top: 0.2rem;
+    }
+
+    .loose-gallery .gallery-item:nth-child(12n + 5) {
+      grid-column: 6 / span 5;
+      margin-top: 1.1rem;
+    }
+
+    .loose-gallery .gallery-item:nth-child(12n + 6) {
+      grid-column: 2 / span 4;
+      margin-top: 1.8rem;
+    }
+
+    .loose-gallery .gallery-item:nth-child(12n + 7) {
+      grid-column: 8 / span 4;
+      margin-top: 0.3rem;
+    }
+
+    .loose-gallery .gallery-item:nth-child(12n + 8) {
+      grid-column: 4 / span 5;
+      margin-top: 1.2rem;
+    }
+
+    .loose-gallery .gallery-item:nth-child(12n + 9) {
+      grid-column: 9 / span 4;
+      margin-top: 1.8rem;
+    }
+
+    .loose-gallery .gallery-item:nth-child(12n + 10) {
+      grid-column: 1 / span 4;
+      margin-top: 0.4rem;
+    }
+
+    .loose-gallery .gallery-item:nth-child(12n + 11) {
+      grid-column: 6 / span 4;
+      margin-top: 1.6rem;
+    }
+
+    .loose-gallery .gallery-item:nth-child(12n) {
+      grid-column: 9 / span 4;
+      margin-top: 0.9rem;
+    }
+
+    .gallery-item {
+      border: 0;
+      background: transparent;
+      display: block;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      cursor: zoom-in;
+    }
+
+    .drawing-container {
+      width: 100%;
+      background-color: #ffffff;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.28s ease;
+    }
+
+    .gallery-item:hover .drawing-container {
+      transform: translateY(-2px);
+    }
+
+    .drawing-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: #ffffff;
+    }
+
+    .drawing-container.cover-image img,
+    .drawing-container.render-image img {
+      object-fit: cover;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.94);
+      cursor: zoom-out;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: min(100%, 1400px);
+      max-height: 92vh;
+      object-fit: contain;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+      background: #ffffff;
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.5rem;
+      border: 0;
+      background: transparent;
+      color: #111111;
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .about-page {
+      padding: 4rem 2rem 6rem 2rem;
+      background: #ffffff;
+    }
+
+    .about-page h2 {
+      display: none;
+      font-size: 1.35rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+    }
+
+    .about-page-grid {
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 5.5rem;
+      align-items: start;
+      max-width: 920px;
+    }
+
+    .about-page .about-photo-container {
+      width: 175px;
+      min-width: 175px;
+      max-width: 175px;
+      margin-top: 0;
+    }
+
+    .about-page p {
+      font-size: 0.95rem;
+      color: #333333;
+      font-weight: 300;
+      text-align: justify;
+      margin-bottom: 2rem;
+      line-height: 1.9;
+    }
+
+    .about-cv {
+      display: flex;
+      flex-direction: column;
+      gap: 4.2rem;
+      max-width: 620px;
+    }
+
+    .cv-section {
+      display: block;
+    }
+
+    .cv-section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #111111;
+      margin-bottom: 1.8rem;
+      margin-left: calc(120px + 3.3rem);
+    }
+
+    .cv-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 4.5rem;
+    }
+
+    .cv-timeline-item {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 3.3rem;
+    }
+
+    .cv-date {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: #777777;
+      letter-spacing: 0.5px;
+      line-height: 1.6;
+    }
+
+    .cv-details h3,
+    .cv-skill-group h3 {
+      font-size: 0.86rem;
+      font-weight: 600;
+      margin-bottom: 0.65rem;
+      color: #111111;
+    }
+
+    .institution {
+      font-size: 0.76rem;
+      color: #666666;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .cv-details p,
+    .cv-skill-group p {
+      font-size: 0.76rem;
+      line-height: 1.75;
+      text-align: left;
+      margin-bottom: 1.2rem;
+      color: #333333;
+    }
+
+    .cv-grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .cv-skill-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6rem;
+      margin-left: calc(120px + 3.3rem);
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      font-size: 0.75rem;
+      color: #aaaaaa;
+      border-top: 1px solid #eeeeee;
+      letter-spacing: 1px;
+      background: #ffffff;
+    }
+
+    @media (max-width: 900px) {
+      .ordered-gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .ordered-gallery.loose-gallery {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+
+      .ordered-gallery.model-gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .loose-gallery .gallery-item:nth-child(n) {
+        grid-column: span 3;
+        margin-top: 0;
+      }
+
+      .loose-gallery .gallery-item:nth-child(4n + 2) {
+        margin-top: 1.2rem;
+      }
+
+      .loose-gallery .gallery-item:nth-child(4n + 3) {
+        grid-column: 2 / span 4;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 1.2rem 1.5rem;
+      }
+
+      .logo {
+        font-size: 1rem;
+      }
+
+      .nav-right {
+        gap: 1rem;
+      }
+
+      nav {
+        gap: 1rem;
+      }
+
+      nav button {
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+      }
+
+      .lang-selector {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.75rem;
+      }
+
+      main {
+        padding-top: 5rem;
+      }
+
+      #about,
+      .project-info-grid,
+      .about-page-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      #about {
+        padding: 1.5rem 1.5rem 1rem 1.5rem;
+      }
+
+      .about-photo-container {
+        width: 50%;
+        max-width: 180px;
+        margin: 0 auto;
+      }
+
+      .about-page .about-photo-container {
+        width: 150px;
+        min-width: 150px;
+        max-width: 150px;
+        margin: 0;
+      }
+
+      .about-text h1 {
+        font-size: 1.6rem;
+        text-align: center;
+      }
+
+      .cv-meta {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+
+      #project-index,
+      .detail-view-container,
+      .about-page {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      #project-index {
+        padding-left: 3.25rem;
+        padding-right: 3.25rem;
+      }
+
+      .index-item {
+        flex-basis: 82%;
+      }
+
+      .project-index-scroll-cue.prev {
+        left: 0.75rem;
+      }
+
+      .project-index-scroll-cue.next {
+        right: 0.75rem;
+      }
+
+      .project-scroll-status {
+        right: 1.5rem;
+        bottom: 3.2rem;
+      }
+
+      .ordered-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .ordered-gallery.loose-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .ordered-gallery.model-gallery {
+        grid-template-columns: 1fr;
+        max-width: none;
+      }
+
+      .loose-gallery .gallery-item:nth-child(n) {
+        grid-column: 1;
+        margin-top: 0;
+      }
+
+      .project-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+
+      .project-header h2 {
+        font-size: 1.15rem;
+      }
+
+      .project-header span {
+        margin-left: 0;
+        white-space: normal;
+      }
+
+      .project-spec {
+        padding-left: 0;
+      }
+
+      .project-info-grid {
+        max-width: none;
+        gap: 1.5rem;
+      }
+
+      .cv-section,
+      .cv-timeline-item,
+      .cv-grid-2col {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .cv-skill-list {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .cv-timeline {
+        gap: 2.25rem;
+      }
+
+      .cv-section-title {
+        letter-spacing: 4px;
+        font-size: 1.1rem;
+        margin-left: 0;
+      }
+
+      .cv-skill-list {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <button class="logo" type="button" onclick="showPage('home')" aria-label="Home"></button>
+      <div class="nav-right">
+        <nav>
+          <button type="button" id="nav-link-portfolio" class="active-nav" onclick="showPage('home')" data-lang="nav_portfolio">PORTFOLIO</button>
+          <button type="button" id="nav-link-about" onclick="showPage('about')" data-lang="nav_about">ABOUT</button>
+        </nav>
+        <select class="lang-selector" onchange="switchLanguage(this.value)">
+          <option value="en" selected>EN</option>
+          <option value="it">IT</option>
+          <option value="de">DE</option>
+          <option value="fr">FR</option>
+          <option value="zh">CH</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="page-home" class="page-view active">
+      <section id="about">
+        <div class="about-photo-container">
+          <img src="images_web/about%20me/photo.jpg" alt="JU YAN">
+        </div>
+        <div class="about-text">
+          <h1>JU YAN</h1>
+          <div class="school-name">POLITECNICO DI MILANO</div>
+          <p data-lang="about_p">After World War II, the French architect Fernand Pouillon stated, "It is enough to have one Corbusier in the world, and I will dedicate myself to designing architecture for civilians." This statement continues to influence my thinking, as it challenges me to reconsider architecture not merely as form-making or grand narratives, but as something grounded in everyday life.</p>
+        </div>
+      </section>
+
+      <section id="project-index">
+        <div class="section-title" data-lang="sec_title">Selected Works</div>
+        <button class="project-index-scroll-cue prev" type="button" aria-label="Scroll projects left" onclick="scrollProjectIndex(-1)"></button>
+        <div class="index-grid" id="projectIndex"></div>
+        <button class="project-index-scroll-cue next" type="button" aria-label="Scroll projects right" onclick="scrollProjectIndex(1)"></button>
+        <div class="project-scroll-status" id="projectScrollStatus">01 / 05</div>
+      </section>
+    </div>
+
+    <div id="page-detail" class="page-view">
+      <div class="detail-view-container" id="detailContainer"></div>
+    </div>
+
+    <div id="page-about" class="page-view">
+      <section class="about-page">
+        <h2 data-lang="about_title">About</h2>
+        <div class="about-page-grid">
+          <div class="about-photo-container">
+            <img src="images_web/about%20me/photo.jpg" alt="JU YAN">
+          </div>
+          <div>
+            <div class="about-cv">
+              <section class="cv-section">
+                <div class="cv-section-title">Education</div>
+                <div class="cv-timeline">
+                  <div class="cv-timeline-item">
+                    <div class="cv-date">09/2017 - 07/2021</div>
+                    <div class="cv-details">
+                      <h3>Bachelor's Degree</h3>
+                      <div class="institution">Shanxi University, Bachelor of Arts</div>
+                      <p>Environmental Design (major)</p>
+                      <p>Award of Excellence | The 9th Annual Exhibition of Fine Arts Works of Chinese Colleges and Universities<br>Silver Award | China Creative Design Yearbook 2018-2019<br>First Prize | "Interior Design 6+" 2021 9th Joint Graduation Design Competition</p>
+                    </div>
+                  </div>
+                  <div class="cv-timeline-item">
+                    <div class="cv-date">09/2023 - 11/2025</div>
+                    <div class="cv-details">
+                      <h3>Master's Degree</h3>
+                      <div class="institution">Politecnico Di Milano, Master of Science</div>
+                      <p>Architecture-Built Environment Interiors (major)</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section class="cv-section">
+                <div class="cv-section-title">Skill</div>
+                <div class="cv-skill-list">
+                  <div class="cv-skill-group">
+                    <h3>Software</h3>
+                    <p>Auto CAD<br>Adobe Photoshop<br>Adobe InDesign<br>SketchUp<br>Rhino<br>Revit<br>Enscape</p>
+                  </div>
+                  <div class="cv-skill-group">
+                    <h3>Language</h3>
+                    <p>Chinese (Native)<br>English (Professional Proficiency)<br>Japanese (N3)</p>
+                  </div>
+                </div>
+              </section>
+              <section class="cv-section">
+                <div class="cv-section-title">Experience</div>
+                <div class="cv-timeline">
+                  <div class="cv-timeline-item">
+                    <div class="cv-date">06/2022 - 07/2023</div>
+                    <div class="cv-details">
+                      <h3>Intern Designer</h3>
+                      <div class="institution">T.E.N STUDIO, Shanghai, China</div>
+                      <p><strong>Longwangshan Resort Project</strong><br>Anji, China | Hospitality & Public Space Design within a Natural Reserve</p>
+                      <p>Conducted site and contextual research to inform early-stage design strategies.<br>Developed visual narratives, renderings, and presentation materials for client and internal reviews.<br>Produced architectural drawings and spatial diagrams across concept and schematic design phases.<br>Explored the relationship between landscape, public activities, and spatial atmosphere.<br>Assisted in design coordination and project development through construction-related stages.</p>
+                    </div>
+                  </div>
+                  <div class="cv-timeline-item">
+                    <div class="cv-date">07/2024 - 09/2024</div>
+                    <div class="cv-details">
+                      <h3>Intern Designer</h3>
+                      <div class="institution">ONLAND STUDIO, Hangzhou, China</div>
+                      <p><strong>Lushan West Sea Farm Complex</strong><br>Jiangxi, China | Rural mixed-use project integrating hospitality, landscape, and agricultural context.</p>
+                      <p>Developed architectural visualizations and graphic materials for multi-phase presentations;<br>Contributed to spatial sequencing and experiential design strategies;<br>Supported collaborative workflows across conceptual and representational development.</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 JU YAN. All Rights Reserved.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem; color: #888888;">Email: yanju0528@gmail.com | Milan, Italy</p>
+  </footer>
+
+  <div class="lightbox" id="imageLightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" type="button" aria-label="Close image preview" onclick="closeLightbox(event)">×</button>
+    <img id="lightboxImage" src="" alt="">
+  </div>
+
+  <script>
+    const projects = [
+      {
+        id: "project01",
+        number: "01",
+        title: {
+          en: "GROWING FROM REMAINS",
+          it: "GROWING FROM REMAINS",
+          zh: "GROWING FROM REMAINS"
+        },
+        subtitle: {
+          en: "Adaptive Reuse and Greenhouse Construction in Casamatta",
+          it: "Adaptive Reuse and Greenhouse Construction in Casamatta",
+          zh: "Casamatta 适应性再利用与温室建造"
+        },
+        meta: {
+          en: "Casamatta / 2025",
+          it: "Casamatta / 2025",
+          zh: "Casamatta / 2025"
+        },
+        indexLine: {
+          en: "Casamatta / 2025",
+          it: "Casamatta / 2025",
+          de: "Casamatta / 2025",
+          fr: "Casamatta / 2025",
+          zh: "Casamatta / 2025"
+        },
+        tag: {
+          en: "Adaptive Reuse / Greenhouse Construction",
+          it: "Riuso adattivo / Costruzione di serra",
+          zh: "适应性再利用 / 温室建造"
+        },
+        description: {
+          en: "This project investigates adaptive reuse through a palimpsest strategy. Existing industrial masonry, inserted lightweight structures, greenhouse spaces, construction details, and atmospheric collages are presented in a controlled sequence.",
+          it: "Il progetto indaga il riuso adattivo attraverso una strategia di palinsesto. Murature industriali esistenti, strutture leggere, serre, dettagli costruttivi e collage atmosferici sono presentati in sequenza controllata.",
+          zh: "项目以层积策略研究工业遗存的适应性再利用，按场地、过程、平面、剖面、细部和氛围图的顺序展开。"
+        },
+        spec: {
+          en: "<strong>Category:</strong> Adaptive Reuse / Interiors<br><strong>Location:</strong> Bovisa, Milan<br><strong>Drawings:</strong> Site, Plans, Sections, Details, Collage",
+          it: "<strong>Categoria:</strong> Riuso adattivo / Interni<br><strong>Luogo:</strong> Bovisa, Milano<br><strong>Disegni:</strong> Sito, piante, sezioni, dettagli, collage",
+          zh: "<strong>类别:</strong> 改造 / 室内<br><strong>地点:</strong> 米兰 Bovisa<br><strong>图纸:</strong> 场地、平面、剖面、细部、拼贴"
+        },
+        cover: "images/project01/cover.jpg",
+        groups: [
+          { title: "Cover", images: ["cover.jpg"] },
+          { title: "Site", images: ["0-site/1-site.jpg", "0-site/siteplan.jpg"] },
+          { title: "Construction", images: ["1-construction/1-plan.jpg", "1-construction/2-section.jpg", "1-construction/3-detail.jpg", "1-construction/4-experiment.jpg", "1-construction/5-steps.jpg"] },
+          { title: "Plan", images: ["2-plan/plan-firstfloor.jpg", "2-plan/plan-groundfloor.jpg"] },
+          { title: "Axonometric", images: ["3-axo/axo-cafe.jpg", "3-axo/axo-library.jpg", "3-axo/axo-risidence.jpg", "3-axo/axo.jpg"] },
+          { title: "Section", images: ["4-section/greenhouse.jpg", "4-section/section-1.jpg", "4-section/section-2.jpg"] },
+          { title: "Visualization", images: ["5-visualization/visualization1.jpg", "5-visualization/visualization2.jpg", "5-visualization/visualization3.jpg"] }
+        ]
+      },
+      {
+        id: "project02",
+        number: "02",
+        title: {
+          en: "COMMON FRAMES",
+          it: "COMMON FRAMES",
+          zh: "COMMON FRAMES"
+        },
+        subtitle: {
+          en: "Furniture-Based Strategies for Affordable Cohousing",
+          it: "Furniture-Based Strategies for Affordable Cohousing",
+          zh: "基于家具系统的可负担共居策略"
+        },
+        meta: {
+          en: "Cohousing / 2025",
+          it: "Cohousing / 2025",
+          zh: "共居住宅 / 2025"
+        },
+        indexLine: {
+          en: "Cohousing / 2025",
+          it: "Cohousing / 2025",
+          de: "Cohousing / 2025",
+          fr: "Cohousing / 2025",
+          zh: "共居住宅 / 2025"
+        },
+        tag: {
+          en: "Affordable Cohousing / Furniture-Based Strategy",
+          it: "Cohousing accessibile / Strategia basata sull'arredo",
+          zh: "可负担共居 / 家具策略"
+        },
+        description: {
+          en: "A housing proposal organized through massing, plans, sections, unit studies, details, and collages. The project is shown from overall structure to domestic scale.",
+          it: "Una proposta abitativa organizzata attraverso massa, piante, sezioni, studi di unita, dettagli e collage.",
+          zh: "住宅设计按体量、平面、剖面、单元、细部和拼贴顺序展示，从整体结构进入居住尺度。"
+        },
+        spec: {
+          en: "<strong>Category:</strong> Housing / Residential Interior<br><strong>Focus:</strong> Student and family units<br><strong>Drawings:</strong> Axonometric, Plans, Sections, Collage",
+          it: "<strong>Categoria:</strong> Abitare / Interni residenziali<br><strong>Focus:</strong> Unita studenti e famiglie<br><strong>Disegni:</strong> Assonometria, piante, sezioni, collage",
+          zh: "<strong>类别:</strong> 住宅 / 室内<br><strong>重点:</strong> 学生与家庭单元<br><strong>图纸:</strong> 轴测、平面、剖面、拼贴"
+        },
+        cover: "images/project02/cover.jpg",
+        groups: [
+          { title: "Cover", images: ["cover.jpg"] },
+          { title: "Concept", images: ["1-concept/massinggeneration.jpg"] },
+          { title: "Plan", images: ["2-plan/plan.jpg"] },
+          { title: "Axonometric", images: ["3-axo/axo.jpg"] },
+          { title: "Unit", images: ["4-unit/familyunit.jpg", "4-unit/studentunit.jpg"] },
+          { title: "Section", images: ["5-section/perspectivesection.jpg", "5-section/section+facade.jpg"] },
+          { title: "Details", images: ["6-details/details.jpg"] },
+          { title: "Visualization", images: ["7-visualization/collage1.jpg", "7-visualization/collage2.jpg", "7-visualization/collage3.jpg", "7-visualization/collage4.jpg", "7-visualization/collage5.jpg", "7-visualization/collage6.jpg"] }
+        ]
+      },
+      {
+        id: "project03",
+        number: "03",
+        title: {
+          en: "URBAN MEMORY COMMONS",
+          it: "MEMORIA URBANA COMUNE",
+          zh: "城市记忆公共体"
+        },
+        subtitle: {
+          en: "Heritage Reading, Public Program & Interior Renewal",
+          it: "Lettura patrimoniale, programma pubblico e rinnovo interno",
+          zh: "遗产阅读、公共功能与室内更新"
+        },
+        meta: {
+          en: "Public Interior / 2024",
+          it: "Interno pubblico / 2024",
+          zh: "公共室内 / 2024"
+        },
+        indexLine: {
+          en: "Milan / 2024",
+          it: "Milano / 2024",
+          de: "Mailand / 2024",
+          fr: "Milan / 2024",
+          zh: "米兰 / 2024"
+        },
+        tag: {
+          en: "Adaptive Public Interior",
+          it: "Interno pubblico adattivo",
+          zh: "公共室内更新"
+        },
+        description: {
+          en: "This project is presented as a sequence from historical research and urban issues to site strategy, plans, section, process, and final interior renderings.",
+          it: "Il progetto procede dalla ricerca storica e dalle criticita urbane alla strategia di sito, piante, sezione, processo e viste finali.",
+          zh: "项目按历史研究、城市问题、场地策略、平面、剖面、过程和最终渲染的顺序呈现。"
+        },
+        spec: {
+          en: "<strong>Category:</strong> Public Interior / Reuse<br><strong>Drawings:</strong> History, Site, Plans, Section, Rendering<br><strong>Method:</strong> Research to spatial renewal",
+          it: "<strong>Categoria:</strong> Interno pubblico / Riuso<br><strong>Disegni:</strong> Storia, sito, piante, sezione, rendering<br><strong>Metodo:</strong> Ricerca e rinnovo spaziale",
+          zh: "<strong>类别:</strong> 公共室内 / 更新<br><strong>图纸:</strong> 历史、场地、平面、剖面、渲染<br><strong>方法:</strong> 从研究到空间更新"
+        },
+        cover: "images/project03/cover.jpg",
+        groups: [
+          { title: "Cover", images: ["cover.jpg"] },
+          { title: "Concept", images: ["1-concept/1-history.jpg", "1-concept/2-site.jpg", "1-concept/3-issues.jpg", "1-concept/4-steps.jpg"] },
+          { title: "Plan", images: ["2-plan/plan-groundfloor.jpg", "2-plan/plan-secondfloor.png"] },
+          { title: "Section", images: ["3-section/section.jpg"] },
+          { title: "Visualization", images: ["4-visualization/collage1.jpg", "4-visualization/collage2.jpg", "4-visualization/collage3.jpg", "4-visualization/rendering1.jpg", "4-visualization/rendering2.jpg", "4-visualization/rendering3.jpg"] }
+        ]
+      },
+      {
+        id: "project04",
+        number: "04",
+        title: {
+          en: "VERTICAL THRESHOLDS",
+          it: "SOGLIE VERTICALI",
+          zh: "垂直边界"
+        },
+        subtitle: {
+          en: "Interior Circulation, Outdoor Rooms & Layered Form",
+          it: "Circolazione interna, stanze esterne e forma stratificata",
+          zh: "室内交通、户外房间与层叠形体"
+        },
+        meta: {
+          en: "Interior Architecture / 2024",
+          it: "Architettura degli interni / 2024",
+          zh: "室内建筑 / 2024"
+        },
+        indexLine: {
+          en: "Milan / 2024",
+          it: "Milano / 2024",
+          de: "Mailand / 2024",
+          fr: "Milan / 2024",
+          zh: "米兰 / 2024"
+        },
+        tag: {
+          en: "Multi-Level Spatial Study",
+          it: "Studio spaziale multilivello",
+          zh: "多层空间研究"
+        },
+        description: {
+          en: "The project is arranged from site and formal study to plans, axonometric drawings, corridor sections, details, and views. The sequence keeps the multi-level logic readable.",
+          it: "Il progetto e ordinato da sito e studio formale a piante, assonometrie, sezioni di corridoio, dettagli e viste.",
+          zh: "项目从场地与形体研究开始，依次展示平面、轴测、走廊剖面、细部和视图，使多层空间逻辑清晰可读。"
+        },
+        spec: {
+          en: "<strong>Category:</strong> Interior Architecture<br><strong>Focus:</strong> Circulation and thresholds<br><strong>Drawings:</strong> Plans, Axonometric, Details, Views",
+          it: "<strong>Categoria:</strong> Architettura degli interni<br><strong>Focus:</strong> Circolazione e soglie<br><strong>Disegni:</strong> Piante, assonometrie, dettagli, viste",
+          zh: "<strong>类别:</strong> 室内建筑<br><strong>重点:</strong> 交通与边界<br><strong>图纸:</strong> 平面、轴测、细部、视图"
+        },
+        cover: "images/project04/cover.jpg",
+        groups: [
+          { title: "Cover", images: ["cover.jpg"] },
+          { title: "Concept", images: ["1-concept/1-site.jpg", "1-concept/2-formalstudy.jpg"] },
+          { title: "Plan", images: ["2-plan/1-plan-groundfloor.jpg", "2-plan/2-plan-fourthfloor.jpg", "2-plan/3-plan-fifthfloor.jpg"] },
+          { title: "Axonometric", images: ["3-axo/1-explodedaxonometric.jpg", "3-axo/2-axo.jpg"] },
+          { title: "Section", images: ["4-section/elevationanddetails.jpg", "4-section/sectionofcorridor.jpg"] },
+          { title: "Visualization", images: ["5-visualization/outdoorviews.jpg", "5-visualization/views.jpg"] }
+        ]
+      },
+      {
+        id: "project05",
+        number: "05",
+        title: {
+          en: "CANAL BAZAAR",
+          it: "BAZAAR SUL CANALE",
+          zh: "运河集市"
+        },
+        subtitle: {
+          en: "Waterfront Market, Seasonal Life & Public Exchange",
+          it: "Mercato sull'acqua, vita stagionale e scambio pubblico",
+          zh: "滨水市场、季节生活与公共交换"
+        },
+        meta: {
+          en: "Public Space / 2024",
+          it: "Spazio pubblico / 2024",
+          zh: "公共空间 / 2024"
+        },
+        indexLine: {
+          en: "Canal Edge / 2024",
+          it: "Margine del canale / 2024",
+          de: "Kanalrand / 2024",
+          fr: "Bord du canal / 2024",
+          zh: "运河边界 / 2024"
+        },
+        tag: {
+          en: "Canal Edge / Urban Interior",
+          it: "Margine del canale / Interno urbano",
+          zh: "运河边界 / 城市室内"
+        },
+        description: {
+          en: "The project is organized from site and seasonal strategy to plans, canal sections, axonometric drawing, bazaar study, and final views.",
+          it: "Il progetto e organizzato da sito e strategia stagionale a piante, sezioni del canale, assonometria, studio del bazaar e viste finali.",
+          zh: "项目按场地、季节策略、平面、运河剖面、轴测、集市研究和最终视图的顺序组织。"
+        },
+        spec: {
+          en: "<strong>Category:</strong> Public Space / Market<br><strong>Focus:</strong> Seasonal waterfront life<br><strong>Drawings:</strong> Site, Plans, Sections, Axonometric, Views",
+          it: "<strong>Categoria:</strong> Spazio pubblico / Mercato<br><strong>Focus:</strong> Vita stagionale sull'acqua<br><strong>Disegni:</strong> Sito, piante, sezioni, assonometria, viste",
+          zh: "<strong>类别:</strong> 公共空间 / 市场<br><strong>重点:</strong> 滨水季节生活<br><strong>图纸:</strong> 场地、平面、剖面、轴测、视图"
+        },
+        cover: "images/project05/cover.jpg",
+        groups: [
+          { title: "Cover", images: ["cover.jpg"] },
+          { title: "Site", images: ["1-site/1-site.jpg", "1-site/2-sectionofthecanel.jpg"] },
+          { title: "Masterview", images: ["2-masterview/axo.jpg", "2-masterview/plans.jpg", "2-masterview/summerandwinter.jpg"] },
+          { title: "Visualization", images: ["3-visualization/1-facadeofthebazaar.jpg", "3-visualization/2-bazaar.jpg", "3-visualization/3-views.jpg", "3-visualization/4-section.jpg"] }
+        ]
+      },
+      {
+        id: "physical models06",
+        number: "06",
+        title: {
+          en: "Physical Models",
+          it: "Physical Models",
+          zh: "Physical Models"
+        },
+        subtitle: {
+          en: "Material Studies and Spatial Models",
+          it: "Material Studies and Spatial Models",
+          zh: "Material Studies and Spatial Models"
+        },
+        meta: {
+          en: "Model Studies",
+          it: "Model Studies",
+          zh: "Model Studies"
+        },
+        indexLine: {
+          en: "Physical Models",
+          it: "Physical Models",
+          de: "Physical Models",
+          fr: "Physical Models",
+          zh: "Physical Models"
+        },
+        tag: {
+          en: "Physical Models",
+          it: "Physical Models",
+          zh: "Physical Models"
+        },
+        description: {
+          en: "A collection of physical model studies exploring spatial structure, material expression, and architectural form through hands-on making.",
+          it: "A collection of physical model studies exploring spatial structure, material expression, and architectural form through hands-on making.",
+          zh: "A collection of physical model studies exploring spatial structure, material expression, and architectural form through hands-on making."
+        },
+        spec: {
+          en: "<strong>Category:</strong> Physical Models",
+          it: "<strong>Category:</strong> Physical Models",
+          zh: "<strong>Category:</strong> Physical Models"
+        },
+        cover: "images/physical models06/1.png",
+        groups: [
+          { title: "Cover", images: ["1.png"] },
+          { title: "Models", images: ["1.png", "2.jpg", "3.jpg", "4.jpg"] }
+        ]
+      },
+      {
+        id: "07Architectural Diary",
+        number: "07",
+        title: {
+          en: "Architectural Diary",
+          it: "Architectural Diary",
+          zh: "Architectural Diary"
+        },
+        subtitle: {
+          en: "Observations, Fragments, and Everyday Architectural Records",
+          it: "Observations, Fragments, and Everyday Architectural Records",
+          zh: "Observations, Fragments, and Everyday Architectural Records"
+        },
+        meta: {
+          en: "Architectural Diary",
+          it: "Architectural Diary",
+          zh: "Architectural Diary"
+        },
+        indexLine: {
+          en: "Architectural Diary",
+          it: "Architectural Diary",
+          de: "Architectural Diary",
+          fr: "Architectural Diary",
+          zh: "Architectural Diary"
+        },
+        tag: {
+          en: "Architectural Diary",
+          it: "Architectural Diary",
+          zh: "Architectural Diary"
+        },
+        description: {
+          en: "A visual diary of architectural observations, fragments, materials, atmospheres, and spatial moments collected through everyday encounters.",
+          it: "A visual diary of architectural observations, fragments, materials, atmospheres, and spatial moments collected through everyday encounters.",
+          zh: "A visual diary of architectural observations, fragments, materials, atmospheres, and spatial moments collected through everyday encounters."
+        },
+        spec: {
+          en: "<strong>Category:</strong> Architectural Diary",
+          it: "<strong>Category:</strong> Architectural Diary",
+          zh: "<strong>Category:</strong> Architectural Diary"
+        },
+        cover: "images/07Architectural Diary/15df84ea55961f1c8db2b6e8866e8c10.jpg",
+        groups: [
+          { title: "Cover", images: ["15df84ea55961f1c8db2b6e8866e8c10.jpg"] },
+          { title: "Diary", images: ["15df84ea55961f1c8db2b6e8866e8c10.jpg", "39a1d612008be813cad6e5cbfffe8657.jpg", "7e2362ce0bcddc1b5d861710ed62026c.jpg", "804f71e5bc9320763715b76066b211a9.jpg", "8aa645d8edba97837788dd5d0950c27f.jpg", "8b03a2ebf48ad7412fe31ce39a175b17.jpg", "8dc3eaaa16be2489fb6382bdbb602399.jpg", "a3ba7ffb7cf4b59a9793018d7d38f646.jpg", "c72be2663af3def2b0ac39751813cf89.jpg", "cac350c94d8001f20c93abd68e248e91.jpg", "df7148bc42d890d0f12a5e84fb00bbbd.jpg", "EF7D37DF-27CD-466C-8852-13BBD66FCD7F-537-000010C6A2F67298.JPG", "IMG_6380.jpeg"] }
+        ]
+      }
+    ];
+
+    const projectCorrections = {
+      project01: {
+        sortYear: 2025,
+        title: { en: "Growing from Remains", it: "Growing from Remains", zh: "Growing from Remains" },
+        subtitle: {
+          en: "Adaptive Reuse and Greenhouse Construction in Casamatta",
+          it: "Adaptive Reuse and Greenhouse Construction in Casamatta",
+          zh: "Casamatta adaptive reuse and greenhouse construction"
+        },
+        meta: { en: "Casamatta, Italy / 2025", it: "Casamatta, Italy / 2025", zh: "Casamatta, Italy / 2025" },
+        indexLine: {
+          en: "Casamatta, Italy / 2025",
+          it: "Casamatta, Italy / 2025",
+          de: "Casamatta, Italy / 2025",
+          fr: "Casamatta, Italy / 2025",
+          zh: "Casamatta, Italy / 2025"
+        },
+        tag: { en: "Casamatta, Italy / 2025", it: "Casamatta, Italy / 2025", zh: "Casamatta, Italy / 2025" },
+        description: {
+          en: "At present, Casamatta embodies multiple identities: on the one hand, it functions as an open-air construction site; on the other, it serves as a shared community space, while also operating as an experimental platform focused on material research and the principles of the circular economy.",
+          it: "At present, Casamatta embodies multiple identities: on the one hand, it functions as an open-air construction site; on the other, it serves as a shared community space, while also operating as an experimental platform focused on material research and the principles of the circular economy.",
+          zh: "At present, Casamatta embodies multiple identities: on the one hand, it functions as an open-air construction site; on the other, it serves as a shared community space, while also operating as an experimental platform focused on material research and the principles of the circular economy."
+        },
+        spec: {
+          en: "<strong>Site:</strong> Casamatta, Malnate, Lombardy, Italy<br><strong>Date:</strong> 2025<br><strong>Professor:</strong> Prof. Brunetti Gian Luca",
+          it: "<strong>Site:</strong> Casamatta, Malnate, Lombardy, Italy<br><strong>Date:</strong> 2025<br><strong>Professor:</strong> Prof. Brunetti Gian Luca",
+          zh: "<strong>Site:</strong> Casamatta, Malnate, Lombardy, Italy<br><strong>Date:</strong> 2025<br><strong>Professor:</strong> Prof. Brunetti Gian Luca"
+        }
+      },
+      project02: {
+        sortYear: 2024,
+        title: { en: "Common Frames", it: "Common Frames", zh: "Common Frames" },
+        subtitle: {
+          en: "Furniture-Based Strategies for Affordable Cohousing",
+          it: "Furniture-Based Strategies for Affordable Cohousing",
+          zh: "Furniture-Based Strategies for Affordable Cohousing"
+        },
+        meta: { en: "Reggio Emilia, Italy / 2024", it: "Reggio Emilia, Italy / 2024", zh: "Reggio Emilia, Italy / 2024" },
+        indexLine: {
+          en: "Reggio Emilia, Italy / 2024",
+          it: "Reggio Emilia, Italy / 2024",
+          de: "Reggio Emilia, Italy / 2024",
+          fr: "Reggio Emilia, Italy / 2024",
+          zh: "Reggio Emilia, Italy / 2024"
+        },
+        tag: { en: "Reggio Emilia, Italy / 2024", it: "Reggio Emilia, Italy / 2024", zh: "Reggio Emilia, Italy / 2024" },
+        description: {
+          en: "Common Frames explores affordable cohousing through the adaptive reuse of existing buildings. By combining flexible domestic infrastructures, movable furniture systems, and shared spaces, the project proposes adaptable living environments for temporary and collective ways of living.",
+          it: "Common Frames explores affordable cohousing through the adaptive reuse of existing buildings. By combining flexible domestic infrastructures, movable furniture systems, and shared spaces, the project proposes adaptable living environments for temporary and collective ways of living.",
+          zh: "Common Frames explores affordable cohousing through the adaptive reuse of existing buildings. By combining flexible domestic infrastructures, movable furniture systems, and shared spaces, the project proposes adaptable living environments for temporary and collective ways of living."
+        },
+        spec: {
+          en: "<strong>Site:</strong> Reggio Emilia, Italy<br><strong>Date:</strong> 2024<br><strong>Professor:</strong> Marta Averna, Leonardo Belladelli",
+          it: "<strong>Site:</strong> Reggio Emilia, Italy<br><strong>Date:</strong> 2024<br><strong>Professor:</strong> Marta Averna, Leonardo Belladelli",
+          zh: "<strong>Site:</strong> Reggio Emilia, Italy<br><strong>Date:</strong> 2024<br><strong>Professor:</strong> Marta Averna, Leonardo Belladelli"
+        }
+      },
+      project03: {
+        sortYear: 2019,
+        title: { en: "The Association between Family Memory and Heritage", it: "The Association between Family Memory and Heritage", zh: "The Association between Family Memory and Heritage" },
+        subtitle: { en: "Restoration of The Working Class Club of Industrial Island", it: "Restoration of The Working Class Club of Industrial Island", zh: "Restoration of The Working Class Club of Industrial Island" },
+        meta: { en: "Harbin, China / 2019", it: "Harbin, China / 2019", zh: "Harbin, China / 2019" },
+        indexLine: {
+          en: "Harbin, China / 2019",
+          it: "Harbin, China / 2019",
+          de: "Harbin, China / 2019",
+          fr: "Harbin, China / 2019",
+          zh: "Harbin, China / 2019"
+        },
+        tag: { en: "Harbin, China / 2019", it: "Harbin, China / 2019", zh: "Harbin, China / 2019" },
+        description: {
+          en: "Almost all three generations of the family have had different associations with the factory club built in 1955. The backgrounds of different generations have also led to different generations of people having different relationships with this building, both joyful and sad. A family part of the ordinary people in the society, and also reflects the life evolution of the whole society to a certain extent. How to bring the feelings and memories of the family into the renovation of the building has become the main entry point of this project.",
+          it: "Almost all three generations of the family have had different associations with the factory club built in 1955. The backgrounds of different generations have also led to different generations of people having different relationships with this building, both joyful and sad. A family part of the ordinary people in the society, and also reflects the life evolution of the whole society to a certain extent. How to bring the feelings and memories of the family into the renovation of the building has become the main entry point of this project.",
+          zh: "Almost all three generations of the family have had different associations with the factory club built in 1955. The backgrounds of different generations have also led to different generations of people having different relationships with this building, both joyful and sad. A family part of the ordinary people in the society, and also reflects the life evolution of the whole society to a certain extent. How to bring the feelings and memories of the family into the renovation of the building has become the main entry point of this project."
+        },
+        spec: {
+          en: "<strong>Project:</strong> School Activity Center<br><strong>Site:</strong> Harbin, China<br><strong>Date:</strong> 2019<br><strong>Tutor:</strong> Lian Ting",
+          it: "<strong>Project:</strong> School Activity Center<br><strong>Site:</strong> Harbin, China<br><strong>Date:</strong> 2019<br><strong>Tutor:</strong> Lian Ting",
+          zh: "<strong>Project:</strong> School Activity Center<br><strong>Site:</strong> Harbin, China<br><strong>Date:</strong> 2019<br><strong>Tutor:</strong> Lian Ting"
+        }
+      },
+      project04: {
+        sortYear: 2020,
+        title: { en: "Architecture as Everyday Life", it: "Architecture as Everyday Life", zh: "Architecture as Everyday Life" },
+        subtitle: { en: "Student Apartment in Nankai", it: "Student Apartment in Nankai", zh: "Student Apartment in Nankai" },
+        meta: { en: "Tianjin, China / 2020", it: "Tianjin, China / 2020", zh: "Tianjin, China / 2020" },
+        indexLine: {
+          en: "Tianjin, China / 2020",
+          it: "Tianjin, China / 2020",
+          de: "Tianjin, China / 2020",
+          fr: "Tianjin, China / 2020",
+          zh: "Tianjin, China / 2020"
+        },
+        tag: { en: "Tianjin, China / 2020", it: "Tianjin, China / 2020", zh: "Tianjin, China / 2020" },
+        description: {
+          en: "Designed near two high schools in Heping District, Tianjin, China, the project aims to design apartments for students and their families nearing the college entrance examination. Busy study life, but full of expectations and yearning for social life, is the common living state of contemporary college students. How to solve the housing area economically, provide the above-mentioned venues for students, and form a clear logic is the core of this project.",
+          it: "Designed near two high schools in Heping District, Tianjin, China, the project aims to design apartments for students and their families nearing the college entrance examination. Busy study life, but full of expectations and yearning for social life, is the common living state of contemporary college students. How to solve the housing area economically, provide the above-mentioned venues for students, and form a clear logic is the core of this project.",
+          zh: "Designed near two high schools in Heping District, Tianjin, China, the project aims to design apartments for students and their families nearing the college entrance examination. Busy study life, but full of expectations and yearning for social life, is the common living state of contemporary college students. How to solve the housing area economically, provide the above-mentioned venues for students, and form a clear logic is the core of this project."
+        },
+        spec: {
+          en: "<strong>Project:</strong> Apartments for College Entrance Exam Students<br><strong>Site:</strong> Heping District, Tianjin, China<br><strong>Date:</strong> 2020<br><strong>Tutor:</strong> Feng Renjun",
+          it: "<strong>Project:</strong> Apartments for College Entrance Exam Students<br><strong>Site:</strong> Heping District, Tianjin, China<br><strong>Date:</strong> 2020<br><strong>Tutor:</strong> Feng Renjun",
+          zh: "<strong>Project:</strong> Apartments for College Entrance Exam Students<br><strong>Site:</strong> Heping District, Tianjin, China<br><strong>Date:</strong> 2020<br><strong>Tutor:</strong> Feng Renjun"
+        }
+      },
+      project05: {
+        sortYear: 2021,
+        title: { en: "Reactivating the Canal Edge", it: "Reactivating the Canal Edge", zh: "Reactivating the Canal Edge" },
+        subtitle: { en: "Public Spaces and Buildings along The Canel", it: "Public Spaces and Buildings along The Canel", zh: "Public Spaces and Buildings along The Canel" },
+        meta: { en: "Cangzhou, China / 2021", it: "Cangzhou, China / 2021", zh: "Cangzhou, China / 2021" },
+        indexLine: {
+          en: "Cangzhou, China / 2021",
+          it: "Cangzhou, China / 2021",
+          de: "Cangzhou, China / 2021",
+          fr: "Cangzhou, China / 2021",
+          zh: "Cangzhou, China / 2021"
+        },
+        tag: { en: "Cangzhou, China / 2021", it: "Cangzhou, China / 2021", zh: "Cangzhou, China / 2021" },
+        description: {
+          en: "The project is not limited to the categories and attributes of groups, but pays more attention to how some living habits shared by the public affect the architectural design, such as growing vegetables, mahjong, playing cards, walking dogs... The venue is chosen on both sides of the Beijing-Hangzhou Grand Canal in my hometown, a semi-open building structure is designed here, not only to enrich people's daily activities and outdoor experience, but also to reinvigorate the declining banks of the canal.",
+          it: "The project is not limited to the categories and attributes of groups, but pays more attention to how some living habits shared by the public affect the architectural design, such as growing vegetables, mahjong, playing cards, walking dogs... The venue is chosen on both sides of the Beijing-Hangzhou Grand Canal in my hometown, a semi-open building structure is designed here, not only to enrich people's daily activities and outdoor experience, but also to reinvigorate the declining banks of the canal.",
+          zh: "The project is not limited to the categories and attributes of groups, but pays more attention to how some living habits shared by the public affect the architectural design, such as growing vegetables, mahjong, playing cards, walking dogs... The venue is chosen on both sides of the Beijing-Hangzhou Grand Canal in my hometown, a semi-open building structure is designed here, not only to enrich people's daily activities and outdoor experience, but also to reinvigorate the declining banks of the canal."
+        },
+        spec: {
+          en: "<strong>Project:</strong> Linear Park<br><strong>Site:</strong> Cangzhou City, Hebei Province, China<br><strong>Date:</strong> 2021<br><strong>Tutor:</strong> Gao Xingxi",
+          it: "<strong>Project:</strong> Linear Park<br><strong>Site:</strong> Cangzhou City, Hebei Province, China<br><strong>Date:</strong> 2021<br><strong>Tutor:</strong> Gao Xingxi",
+          zh: "<strong>Project:</strong> Linear Park<br><strong>Site:</strong> Cangzhou City, Hebei Province, China<br><strong>Date:</strong> 2021<br><strong>Tutor:</strong> Gao Xingxi"
+        }
+      }
+    };
+
+    projects.forEach(project => Object.assign(project, projectCorrections[project.id]));
+
+    const translations = {
+      en: {
+        nav_portfolio: "PORTFOLIO",
+        nav_about: "ABOUT",
+        about_p: "Architectural and interior designer trained between China and Milan. Her work focuses on adaptive reuse, interior tectonics, material atmosphere, public space, and precise architectural representation. This portfolio presents five projects through ordered drawings, collages, renderings, diagrams, and construction studies.",
+        meta_edu_title: "Education",
+        meta_edu_body: "Politecnico di Milano, Leonardo Campus",
+        meta_tools_title: "Toolkit",
+        sec_title: "Selected Works",
+        back_link: "Back to Portfolio",
+        about_title: "About",
+        about_detail_1: "Ju Yan works across architecture and interior design with a focus on historical context, spatial atmosphere, construction logic, and rigorous drawing. Her portfolio is organized as a clear archive: each project keeps its drawings and images in a deliberate sequence so the design process can be read from site and concept to plans, sections, details, and final views.",
+        about_detail_2: "The work combines technical precision with atmospheric representation, using line drawings, diagrams, collages, renderings, and material studies to communicate both spatial structure and lived experience."
+      },
+      it: {
+        nav_portfolio: "PORTFOLIO",
+        nav_about: "PROFILO",
+        about_p: "Designer di architettura e interni formata tra Cina e Milano. Il suo lavoro si concentra su riuso adattivo, tettonica degli interni, atmosfera materica, spazio pubblico e rappresentazione architettonica precisa.",
+        meta_edu_title: "Formazione",
+        meta_edu_body: "Politecnico di Milano, Campus Leonardo",
+        meta_tools_title: "Strumenti",
+        sec_title: "Progetti Selezionati",
+        back_link: "Torna al Portfolio",
+        about_title: "Profilo",
+        about_detail_1: "Ju Yan lavora tra architettura e interior design con attenzione a contesto storico, atmosfera spaziale, logica costruttiva e disegno rigoroso.",
+        about_detail_2: "Il lavoro combina precisione tecnica e rappresentazione atmosferica attraverso disegni, diagrammi, collage, rendering e studi materici."
+      },
+      zh: {
+        nav_portfolio: "作品集",
+        nav_about: "关于",
+        about_p: "建筑与室内设计师，学习经历横跨中国与米兰。作品关注适应性再利用、室内构造、材料氛围、公共空间与精确建筑表达。",
+        meta_edu_title: "教育",
+        meta_edu_body: "米兰理工大学 Leonardo 校区",
+        meta_tools_title: "工具",
+        sec_title: "精选作品",
+        back_link: "返回作品集",
+        about_title: "关于",
+        about_detail_1: "鞠妍的工作横跨建筑与室内设计，关注历史语境、空间氛围、建造逻辑与严谨制图。",
+        about_detail_2: "作品通过线图、图解、拼贴、渲染与材料研究，同时传达空间结构与生活体验。"
+      }
+    };
+
+    Object.assign(translations, {
+      en: {
+        nav_portfolio: "PORTFOLIO",
+        nav_about: "ABOUT",
+        about_p: "After World War II, the French architect Fernand Pouillon stated, \"It is enough to have one Corbusier in the world, and I will dedicate myself to designing architecture for civilians.\" This statement continues to influence my thinking, as it challenges me to reconsider architecture not merely as form-making or grand narratives, but as something grounded in everyday life.",
+        meta_edu_title: "Education",
+        meta_edu_body: "Politecnico di Milano, Leonardo Campus",
+        meta_tools_title: "Toolkit",
+        sec_title: "Selected Works",
+        back_link: "Back to Portfolio",
+        about_title: "About",
+        about_detail_1: "Ju Yan works across architecture and interior design with a focus on historical context, spatial atmosphere, construction logic, and rigorous drawing.",
+        about_detail_2: "The work combines technical precision with atmospheric representation, using line drawings, diagrams, collages, renderings, and material studies to communicate both spatial structure and lived experience.",
+        cv_sec_edu: "Education",
+        cv_edu1_d: "M.Sc. in Architecture (Built Environment - Interiors)",
+        cv_edu1_p: "Focused on historical adaptive reuse, interior tectonic syntax, and context-sensitive structural interventions within European contexts.",
+        cv_sec_exp: "Experience",
+        cv_exp1_d: "Architectural & Interior Design Internships",
+        cv_exp1_p: "Collaborated on schematic design execution, spatial drafting adjustments, and detailed material sample board curation under senior architect mentorship.",
+        cv_sec_skills: "Expertise",
+        cv_sk_t1: "Technical Toolkit",
+        cv_sk_t2: "Languages & Competencies",
+        cv_sk_p2: "Chinese (Native)<br>English (Professional - IELTS 6.0)<br>Japanese (Conversational - JLPT N3)<br>Italian (Basic Everyday Competency)"
+      },
+      it: {
+        nav_portfolio: "PORTFOLIO",
+        nav_about: "PROFILO",
+        about_p: "After World War II, the French architect Fernand Pouillon stated, \"It is enough to have one Corbusier in the world, and I will dedicate myself to designing architecture for civilians.\" This statement continues to influence my thinking, as it challenges me to reconsider architecture not merely as form-making or grand narratives, but as something grounded in everyday life.",
+        meta_edu_title: "Formazione",
+        meta_edu_body: "Politecnico di Milano, Campus Leonardo",
+        meta_tools_title: "Strumenti",
+        sec_title: "Progetti Selezionati",
+        back_link: "Torna al Portfolio",
+        about_title: "Profilo",
+        about_detail_1: "Ju Yan lavora tra architettura e interior design con attenzione a contesto storico, atmosfera spaziale, logica costruttiva e disegno rigoroso.",
+        about_detail_2: "Il lavoro combina precisione tecnica e rappresentazione atmosferica attraverso disegni, diagrammi, collage, rendering e studi materici.",
+        cv_sec_edu: "Formazione",
+        cv_edu1_d: "Laurea Magistrale in Architecture (Built Environment - Interiors)",
+        cv_edu1_p: "Percorso focalizzato sul riuso adattivo storico, la sintassi tettonica degli interni e gli interventi strutturali sensibili al contesto europeo.",
+        cv_sec_exp: "Esperienza",
+        cv_exp1_d: "Tirocini di progettazione architettonica e di interni",
+        cv_exp1_p: "Collaborazione allo sviluppo schematico, alla revisione dei disegni spaziali e alla cura di campionari materici sotto la guida di architetti senior.",
+        cv_sec_skills: "Competenze",
+        cv_sk_t1: "Strumenti Tecnici",
+        cv_sk_t2: "Lingue & Competenze",
+        cv_sk_p2: "Cinese (madrelingua)<br>Inglese (professionale - IELTS 6.0)<br>Giapponese (conversazionale - JLPT N3)<br>Italiano (competenza quotidiana di base)"
+      },
+      de: {
+        nav_portfolio: "PORTFOLIO",
+        nav_about: "UBER",
+        about_p: "After World War II, the French architect Fernand Pouillon stated, \"It is enough to have one Corbusier in the world, and I will dedicate myself to designing architecture for civilians.\" This statement continues to influence my thinking, as it challenges me to reconsider architecture not merely as form-making or grand narratives, but as something grounded in everyday life.",
+        meta_edu_title: "Ausbildung",
+        meta_edu_body: "Politecnico di Milano, Leonardo Campus",
+        meta_tools_title: "Werkzeuge",
+        sec_title: "Ausgewahlte Arbeiten",
+        back_link: "Zuruck zum Portfolio",
+        about_title: "Uber",
+        about_detail_1: "Ju Yan arbeitet an der Schnittstelle von Architektur und Interior Design mit Fokus auf historischen Kontext, raumliche Atmosphare, Konstruktionslogik und prazise Zeichnung.",
+        about_detail_2: "Die Arbeiten verbinden technische Genauigkeit mit atmospharischer Darstellung durch Linienzeichnungen, Diagramme, Collagen, Renderings und Materialstudien.",
+        cv_sec_edu: "Ausbildung",
+        cv_edu1_d: "M.Sc. Architektur (Built Environment - Interiors)",
+        cv_edu1_p: "Schwerpunkt auf historischer Umnutzung, Innenraumtektonik und kontextsensiblen strukturellen Eingriffen im europaischen Kontext.",
+        cv_sec_exp: "Erfahrung",
+        cv_exp1_d: "Praktika in Architektur- und Interior-Design",
+        cv_exp1_p: "Mitarbeit an Entwurfsentwicklung, zeichnerischen Anpassungen und Materialmuster-Boards unter Anleitung erfahrener Architektinnen und Architekten.",
+        cv_sec_skills: "Expertise",
+        cv_sk_t1: "Technische Werkzeuge",
+        cv_sk_t2: "Sprachen & Kompetenzen",
+        cv_sk_p2: "Chinesisch (Muttersprache)<br>Englisch (professionell - IELTS 6.0)<br>Japanisch (Konversation - JLPT N3)<br>Italienisch (Grundkenntnisse)"
+      },
+      fr: {
+        nav_portfolio: "PORTFOLIO",
+        nav_about: "A PROPOS",
+        about_p: "After World War II, the French architect Fernand Pouillon stated, \"It is enough to have one Corbusier in the world, and I will dedicate myself to designing architecture for civilians.\" This statement continues to influence my thinking, as it challenges me to reconsider architecture not merely as form-making or grand narratives, but as something grounded in everyday life.",
+        meta_edu_title: "Formation",
+        meta_edu_body: "Politecnico di Milano, Campus Leonardo",
+        meta_tools_title: "Outils",
+        sec_title: "Travaux Selectionnes",
+        back_link: "Retour au portfolio",
+        about_title: "A propos",
+        about_detail_1: "Ju Yan travaille entre architecture et design interieur, avec une attention particuliere au contexte historique, a l'atmosphere spatiale, a la logique constructive et au dessin rigoureux.",
+        about_detail_2: "Le travail combine precision technique et representation atmospherique a travers dessins, diagrammes, collages, rendus et etudes de materiaux.",
+        cv_sec_edu: "Formation",
+        cv_edu1_d: "M.Sc. en Architecture (Built Environment - Interiors)",
+        cv_edu1_p: "Travail axe sur le reemploi adaptatif historique, la syntaxe tectonique interieure et les interventions structurelles sensibles au contexte europeen.",
+        cv_sec_exp: "Experience",
+        cv_exp1_d: "Stages en architecture et design interieur",
+        cv_exp1_p: "Collaboration au developpement des esquisses, aux ajustements de dessins spatiaux et a la curation de planches de materiaux avec l'encadrement d'architectes seniors.",
+        cv_sec_skills: "Expertise",
+        cv_sk_t1: "Outils Techniques",
+        cv_sk_t2: "Langues & Competences",
+        cv_sk_p2: "Chinois (langue maternelle)<br>Anglais (professionnel - IELTS 6.0)<br>Japonais (conversation - JLPT N3)<br>Italien (niveau quotidien de base)"
+      },
+      zh: {
+        nav_portfolio: "作品集",
+        nav_about: "关于",
+        about_p: "After World War II, the French architect Fernand Pouillon stated, \"It is enough to have one Corbusier in the world, and I will dedicate myself to designing architecture for civilians.\" This statement continues to influence my thinking, as it challenges me to reconsider architecture not merely as form-making or grand narratives, but as something grounded in everyday life.",
+        meta_edu_title: "教育背景",
+        meta_edu_body: "米兰理工大学 Leonardo 校区",
+        meta_tools_title: "工具",
+        sec_title: "精选作品",
+        back_link: "返回作品集",
+        about_title: "关于",
+        about_detail_1: "Ju Yan 的工作横跨建筑与室内设计，关注历史语境、空间氛围、构造逻辑与严谨制图。",
+        about_detail_2: "作品通过线稿、图解、拼贴、渲染与材料研究，同时表达空间结构与生活体验。",
+        cv_sec_edu: "教育背景",
+        cv_edu1_d: "建筑学硕士（Built Environment - Interiors）",
+        cv_edu1_p: "专注于历史建筑适应性再利用、室内建构语法，以及欧洲文脉下的结构性空间介入。",
+        cv_sec_exp: "实践经历",
+        cv_exp1_d: "建筑与室内设计实习",
+        cv_exp1_p: "在资深建筑师指导下参与方案深化、空间图纸调整，以及材料样板整理。",
+        cv_sec_skills: "专业技能",
+        cv_sk_t1: "技术工具",
+        cv_sk_t2: "语言与能力",
+        cv_sk_p2: "中文（母语）<br>英语（专业熟练 - IELTS 6.0）<br>日语（日常交流 - JLPT N3）<br>意大利语（日常基础）"
+      }
+    });
+
+    let currentLanguage = "en";
+    let currentProject = null;
+
+    function valueFor(value) {
+      if (typeof value === "string") return value;
+      return value[currentLanguage] || value.en;
+    }
+
+    function projectValueFor(value) {
+      if (typeof value === "string") return value;
+      return value.en;
+    }
+
+    function previewSrc(src) {
+      return src.replace(/^images\//, "images_web/").replace(/\.(png|jpeg|jpg)$/i, ".jpg");
+    }
+
+    function imageClass(fileName) {
+      const lower = fileName.toLowerCase();
+      if (lower.includes("cover") || lower.includes("collage") || lower.includes("rendering") || lower.includes("views") || lower.includes("outdoor")) {
+        return "render-image";
+      }
+      return "";
+    }
+
+    function aspectFor(fileName) {
+      const lower = fileName.toLowerCase();
+      if (lower.includes("cover") || lower.includes("collage")) return "16 / 10";
+      if (lower.includes("plan-groundfloor") || lower.includes("plan-firstfloor") || lower === "plans.jpg" || lower.includes("section+facade")) return "16 / 11";
+      if (lower.includes("siteplan") || lower.includes("detail") || lower.includes("construction2") || lower.includes("construction3") || lower.includes("bazaar")) return "3 / 4";
+      return "4 / 3";
+    }
+
+    function isAtmosphereImage(fileName) {
+      const lower = fileName.toLowerCase();
+      return lower.includes("cover") || lower.includes("collage") || lower.includes("rendering") || lower.includes("views") || lower.includes("outdoor") || lower.includes("greenhouse");
+    }
+
+    function galleryImagesFor(project) {
+      return project.groups
+        .filter(group => group.title.toLowerCase() !== "cover")
+        .flatMap(group => group.images.map(fileName => ({
+          fileName,
+          title: group.title
+        })));
+    }
+
+    function orderedProjects() {
+      return projects;
+    }
+
+    function displayNumberFor(project) {
+      const index = orderedProjects().findIndex(item => item.id === project.id);
+      return String(index + 1).padStart(2, "0");
+    }
+
+    function renderIndex() {
+      const index = document.getElementById("projectIndex");
+      index.innerHTML = orderedProjects().map(project => `
+        <button class="index-item" type="button" onclick="showProject('${project.id}')">
+          <div class="index-cover-container">
+            <img src="${previewSrc(project.cover)}" alt="${projectValueFor(project.title)}" loading="lazy">
+          </div>
+          <div class="index-info">
+            <div class="index-meta">${displayNumberFor(project)} / ${projectValueFor(project.indexLine)}</div>
+          </div>
+        </button>
+      `).join("");
+      updateProjectScrollControls();
+    }
+
+    function renderDetail(project) {
+      const container = document.getElementById("detailContainer");
+      const isLooseProject = project.id === "07Architectural Diary";
+      const isModelProject = project.id === "physical models06";
+      const isMinimalProject = isLooseProject || isModelProject;
+      container.innerHTML = `
+        <button class="back-to-index" type="button" onclick="showPage('home')" data-lang="back_link">${translations[currentLanguage].back_link}</button>
+        <div class="project-header">
+          <h2>${displayNumberFor(project)} / ${projectValueFor(project.title)}${projectValueFor(project.subtitle) ? `: ${projectValueFor(project.subtitle)}` : ""}</h2>
+        </div>
+        ${isMinimalProject ? "" : `
+          <div class="project-info-grid">
+            <div class="project-description">${projectValueFor(project.description)}</div>
+            <div class="project-spec">${projectValueFor(project.spec)}</div>
+          </div>
+        `}
+        <div class="ordered-gallery${isLooseProject ? " loose-gallery" : ""}${isModelProject ? " model-gallery" : ""}">
+          ${galleryImagesFor(project).map(image => `
+            <button class="gallery-item" type="button" onclick="openLightbox('${previewSrc(`images/${project.id}/${image.fileName}`)}', '${displayNumberFor(project)} ${image.title}')">
+              <div class="drawing-container ${imageClass(image.fileName)}" style="aspect-ratio: ${aspectFor(image.fileName)};">
+                <img src="${previewSrc(`images/${project.id}/${image.fileName}`)}" alt="${displayNumberFor(project)} ${image.title}" loading="lazy">
+              </div>
+            </button>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function openLightbox(src, alt) {
+      const lightbox = document.getElementById("imageLightbox");
+      const image = document.getElementById("lightboxImage");
+      image.src = src;
+      image.alt = alt;
+      lightbox.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox(event) {
+      if (event) event.stopPropagation();
+      const lightbox = document.getElementById("imageLightbox");
+      const image = document.getElementById("lightboxImage");
+      lightbox.classList.remove("active");
+      image.src = "";
+      document.body.style.overflow = "";
+    }
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        closeLightbox();
+      }
+    });
+
+    function setupProjectWheelScroll() {
+      const index = document.getElementById("projectIndex");
+      index.addEventListener("wheel", event => {
+        const scrollAmount = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+        if (scrollAmount === 0) return;
+        event.preventDefault();
+        index.scrollLeft += scrollAmount;
+      }, { passive: false });
+      index.addEventListener("scroll", updateProjectScrollControls, { passive: true });
+    }
+
+    function updateProjectScrollControls() {
+      const index = document.getElementById("projectIndex");
+      const prev = document.querySelector(".project-index-scroll-cue.prev");
+      const next = document.querySelector(".project-index-scroll-cue.next");
+      const status = document.getElementById("projectScrollStatus");
+      const item = index && index.querySelector(".index-item");
+      if (!index || !item || !prev || !next || !status) return;
+
+      const gap = parseFloat(getComputedStyle(index).columnGap) || 0;
+      const step = item.getBoundingClientRect().width + gap;
+      const maxScroll = index.scrollWidth - index.clientWidth;
+      const current = Math.min(projects.length, Math.max(1, Math.round(index.scrollLeft / step) + 1));
+
+      prev.disabled = index.scrollLeft <= 2;
+      next.disabled = index.scrollLeft >= maxScroll - 2;
+      status.textContent = `${String(current).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}`;
+    }
+
+    function syncHomePhotoSize() {
+      const photo = document.querySelector("#about .about-photo-container");
+      const text = document.querySelector("#about .about-text");
+      if (!photo || !text) return;
+
+      if (window.innerWidth <= 768) {
+        photo.style.width = "";
+        photo.style.height = "";
+        return;
+      }
+
+      const size = Math.round(text.getBoundingClientRect().height);
+      photo.style.width = `${size}px`;
+      photo.style.height = `${size}px`;
+    }
+
+    function scrollProjectIndex(direction) {
+      const index = document.getElementById("projectIndex");
+      const item = index.querySelector(".index-item");
+      if (!item) return;
+
+      const gap = parseFloat(getComputedStyle(index).columnGap) || 0;
+      const step = item.getBoundingClientRect().width + gap;
+      const maxScroll = index.scrollWidth - index.clientWidth;
+      const nextScroll = Math.min(
+        Math.max(index.scrollLeft + step * direction, 0),
+        maxScroll
+      );
+
+      index.scrollTo({ left: nextScroll, behavior: "smooth" });
+      window.setTimeout(updateProjectScrollControls, 350);
+    }
+
+    function switchLanguage(lang) {
+      currentLanguage = lang;
+      document.documentElement.setAttribute("lang", lang);
+      const dictionary = translations[lang];
+
+      document.querySelectorAll("[data-lang]").forEach(element => {
+        if (element.closest(".about-cv")) return;
+        const key = element.getAttribute("data-lang");
+        if (dictionary[key]) {
+          element.innerHTML = dictionary[key];
+        }
+      });
+
+      renderIndex();
+      if (currentProject) {
+        renderDetail(currentProject);
+      }
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll(".page-view").forEach(page => page.classList.remove("active"));
+      document.getElementById("page-" + pageId).classList.add("active");
+
+      const navPortfolio = document.getElementById("nav-link-portfolio");
+      const navAbout = document.getElementById("nav-link-about");
+
+      if (pageId === "about") {
+        currentProject = null;
+        navPortfolio.classList.remove("active-nav");
+        navAbout.classList.add("active-nav");
+      } else {
+        if (pageId === "home") currentProject = null;
+        navPortfolio.classList.add("active-nav");
+        navAbout.classList.remove("active-nav");
+      }
+
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+
+    function showProject(projectId) {
+      const project = projects.find(item => item.id === projectId);
+      if (!project) return;
+      currentProject = project;
+      renderDetail(project);
+      showPage("detail");
+    }
+
+    renderIndex();
+    setupProjectWheelScroll();
+    syncHomePhotoSize();
+    window.addEventListener("resize", syncHomePhotoSize);
+    window.addEventListener("load", syncHomePhotoSize);
+  </script>
+</body>
+</html>
