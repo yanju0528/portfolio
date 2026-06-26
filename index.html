@@ -383,24 +383,6 @@
       transition: filter 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    .index-cover-title {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: flex-end;
-      padding: 1rem;
-      color: #ffffff;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 1.7px;
-      line-height: 1.4;
-      text-transform: uppercase;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0));
-      opacity: 0;
-      transition: opacity 0.35s ease;
-      pointer-events: none;
-    }
-
     @media (hover: hover) and (pointer: fine) {
       .index-item:hover .index-cover-container {
         animation: cover-hop 0.38s ease;
@@ -410,10 +392,6 @@
       .index-item:hover .index-cover-container img {
         filter: grayscale(0%);
         transform: scale(1.05);
-      }
-
-      .index-item:hover .index-cover-title {
-        opacity: 1;
       }
     }
 
@@ -2211,7 +2189,6 @@
         <button class="index-item" type="button" onclick="showProject('${project.id}')">
           <div class="index-cover-container">
             <img src="${previewSrc(project.cover)}" alt="${projectValueFor(project.title)}" loading="lazy">
-            <div class="index-cover-title">${displayNumberFor(project)} / ${projectValueFor(project.title)}</div>
           </div>
           <div class="index-info">
             <div class="index-meta">${displayNumberFor(project)} / ${projectValueFor(project.indexLine)}</div>
